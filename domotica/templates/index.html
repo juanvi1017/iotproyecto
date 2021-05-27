@@ -1,0 +1,177 @@
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>IoT Security Message</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+        <meta name="author" content="Juan Caceres Miranda">
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyCWnyuLxLG-MOXXe7e26EhCm8KBjBSNJ8c",
+            authDomain: "proyecto-iot-8f07c.firebaseapp.com",
+            databaseURL: "https://proyecto-iot-8f07c-default-rtdb.firebaseio.com",
+            projectId: "proyecto-iot-8f07c",
+            storageBucket: "proyecto-iot-8f07c.appspot.com",
+            messagingSenderId: "768862448603",
+            appId: "1:768862448603:web:32d038d6cee8a1019315fe"
+          };
+          firebase.initializeApp(config);
+        </script>
+        </head>
+      <body>
+       <header class="row">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" style="height: 10;">
+          <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="navbar-brand" href="#">IoT Security Message</a>
+              </li>
+            </ul>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido" aria-controls="navbarContenido" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarContenido">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link"  href="https://americana.edu.co/barranquilla/" target="_blank">Corporacion Universitaria Americana</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://www.instagram.com/juanvi1017/" target="_blank" data-bs-toggle="modal" data-bs-target="#developerModal">Developer</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+       </header>
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="card col-md-5 col-sm-12  " style="margin-top: 60px;">
+            <img src="https://raulcarretero.com/wp-content/uploads/2020/04/Domotica-IOT-contra-coronavirus.jpg" class="card-img-top" alt="Domotica">
+            <div class="card-body">
+              <p class="card-text">Visual del Proyecto Security Message IoT, desde aca se puede controlar el encendido y apagado de los LED'S</p>
+              <div class="row">
+                <div class="form-check form-switch col-md-6 col-sm-6">
+                  <input class="form-check-input" type="checkbox" id="checkLed1">
+                  <label class="form-check-label" for="checkLed1">LED 1</label>
+                </div>
+                <div class="form-check form-switch col-md-6 col-sm-6">
+                  <input class="form-check-input" type="checkbox" id="checkLed2">
+                  <label class="form-check-label" for="checkLed2">LED 2</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="developerModal" tabindex="-1" aria-labelledby="developerModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="developerModalLabel">Juan Vicente Caceres Miranda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="row justify-content-center">
+                      <img class="rounded-circle" src="https://scontent.fbaq9-1.fna.fbcdn.net/v/t1.6435-9/157386585_134015528618687_8845672887326331409_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=174925&_nc_eui2=AeF79A9nT7xU4cVnm9L-KIQet3bQC5jg_we3dtALmOD_B0qKiv9ZnjLG100aXDsgPrvZ3Rcb_ukQuNz7TVsmCvF8&_nc_ohc=9LstDH9HZB4AX8npPmb&_nc_ht=scontent.fbaq9-1.fna&oh=70c8df8590d151cb3bed71779bd3d42c&oe=60D49B0F" alt="Lights" style="width:50%">
+                      <div class="caption">
+                        <p style="text-align: justify; margin: 0 20px;">Estudiante de Ingenería de Sistemas, Tecnico y Tecnologo en sistemas.
+                           Apasionado por el desarrollo de software y seguridad Informatica</p>
+                      </div>
+                </div>
+              <div class="modal-footer">
+                <div class="row justify-content-center btn-group" role="group">
+                  <a href="#" class="btn btn-info">Twitter</a>
+                  <a href="https://www.instagram.com/juanvi1017/?hl=es-la" target="_blank" class="btn btn-danger">Instagram</a>
+                  <a href="https://www.facebook.com/profile.php?id=100060307221073" target="_blank" class="btn btn-primary">Facebook</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+      <script>
+         /*  
+          //Esqueleto de la BD
+          var db = firebase.database().ref('home').set({
+            led1:"",
+            led2:""
+          });
+          
+  */
+        var db = firebase.database().ref('home');
+        // último estado
+   
+        db.on('value', function(data){
+            $.ajax({
+                method: 'GET',
+                url: '/decifrar/',
+                data: {
+                    'mensaje': data.val().led1
+                },
+                dataType: "json",
+                success: function(response) {
+                    $("#checkLed1").prop('checked', response.result);
+                    }
+            });
+            $.ajax({
+                method: 'GET',
+                url: '/decifrar/',
+                data: {
+                    'mensaje': data.val().led2
+                },
+                dataType: "json",
+                success: function(response) {
+                    $("#checkLed2").prop('checked', response.result);
+                    }
+            }); 
+        });
+    
+    
+        $("#checkLed1").click(function(){
+          let estado = $(this).is(':checked');
+          $.ajax({
+                method: 'GET',
+                url: '/cifrar/',
+                data: {
+                    'mensaje': estado
+                },
+                dataType: "json",
+                success: function(response) {
+                 
+                    db.update({
+                        led1: response.result
+                        });
+                    }
+            }); 
+         
+        });
+        $("#checkLed2").click(function(){
+          let estado = $(this).is(':checked');
+          $.ajax({
+                method: 'GET',
+                url: '/cifrar/',
+                data: {
+                    'mensaje': estado
+                },
+                dataType: "json",
+                success: function(response) {
+                
+                    db.update({
+                        led2: response.result
+                        });
+                    }
+            }); 
+         
+        });
+  
+      </script>
+      </body>
+    </html>
