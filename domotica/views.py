@@ -4,10 +4,10 @@ import requests
 import json
 from django.http import HttpResponse
 #-------------------------------- Criptografia
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
-import ast
+from Crypto.Cipher import AES
 import base64
+from Crypto import Random
+import hashlib
 #------------------------------- Entorno
 from dotenv import load_dotenv
 from os import getenv
@@ -20,15 +20,19 @@ environment = getenv('ENVIRONMENT_USUARIO', 'iot')
 if environment == 'iot':
     #Generador de la clave y se guarda en un archivo .pem
     '''
-    key = RSA.generate(2048)
-    f = open('C:/djangoPersonal/mykey.pem','wb')
-    f.write(key.export_key('PEM'))
+    key=Random.new().read(AES.block_size)#Llave en bytes
+    key=hashlib.sha256(key).digest()
+    key=base64.b64encode(key)
+    f = open('C:/Users/juanvi/Documents/mykey.pem','wb')
+    f.write(key)
     f.close()
     '''
 
     #Leo la llave almacenada en el archivo .pem
-    f = open('static/mykey.pem','r')
-    key = RSA.import_key(f.read())
+    f = open('C:/Users/juanvi/Documents/mykey.pem','r')
+    key=f.read()
+    key=base64.b64decode(key)
+    
 #-----------------------------------------------------------------------------------
 
 
@@ -42,12 +46,17 @@ def cifrar(request):
     if request.method == 'GET':
         mensaje = request.GET["mensaje"]
         mensaje=mensaje.encode()#cambio el mensaje de string a bytes
-        encryptor = PKCS1_OAEP.new(key)#le digo con que llave se va a encriptar
-        encrypted = encryptor.encrypt(mensaje)#encripto el mensaje
-        encoded_encrypted_msg = base64.b64encode(encrypted)#codifico el byte encriptado a un formato base 64  o utf-8 o latin -1
+        cipher = AES.new(key, AES.MODE_EAX) #creo el cifrado con la llave
+        nonce=cipher.nonce
+        nonce=base64.b64encode(nonce)
+        nonce=nonce.decode()
+        encryptor = cipher.encrypt(mensaje)#encripto el mensaje
+        encoded_encrypted_msg = base64.b64encode(encryptor)#codifico el byte encriptado a un formato base 64  o utf-8 o latin -1
         encoded_encrypted_msg=encoded_encrypted_msg.decode()#el mensaje encriptado cambio el tipo de dato de byte a string para poder enviarlo por json
+        print(nonce)
         responseData = {
         'result': encoded_encrypted_msg,
+        'nonce':nonce
          }
         return HttpResponse(json.dumps(responseData), content_type="application/json")
     
@@ -57,10 +66,13 @@ def decifrar(request):
     if request.method == 'GET':
         msj=bool()
         mensaje = request.GET["mensaje"]
+        nonce=request.GET["nonce"]
+        nonce=nonce.encode()
+        nonce=base64.b64decode(nonce)
         mensaje=mensaje.encode()#cambio el mensaje de string a byte
         mensaje = base64.b64decode(mensaje)#devuelvo en mensaje al formato original de la encriptacion
-        decryptor = PKCS1_OAEP.new(key)
-        decrypted = decryptor.decrypt(ast.literal_eval(str(mensaje)))#desencripto el mensaje
+        decryptor = AES.new(key, AES.MODE_EAX, nonce)
+        decrypted = decryptor.decrypt(mensaje)
         decrypted=decrypted.decode()#cambio el mensaje desencriptado de byte a string
         if decrypted== "true":
             msj=True
