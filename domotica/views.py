@@ -14,7 +14,7 @@ from os import getenv
 
 
 load_dotenv()
-environment = getenv('ENVIRONMENT_USUARIO', 'iot') 
+environment = getenv('ENVIRONMENT_USUARIO_RT', 'iot') 
 
 # VARIABLES DE CONEXIÓN
 if environment == 'iot':
@@ -32,6 +32,7 @@ if environment == 'iot':
     f = open('C:/Users/juanvi/Documents/mykey.pem','r')
     key=f.read()
     key=base64.b64decode(key)
+    diccionario={'true':'americana1.#1', 'false':'americana1.#0'}
     
 #-----------------------------------------------------------------------------------
 
@@ -44,11 +45,8 @@ def home(request):
 
 def cifrar(request):
     if request.method == 'POST':
-        mensaje = request.POST["mensaje"]
-        if mensaje== "true":
-            mensaje="americana1.#1"
-        else:
-            mensaje="americana1.#0"
+        info = request.POST["mensaje"]
+        mensaje=diccionario[info]
         mensaje=mensaje.encode()#cambio el mensaje de string a bytes
         cipher = AES.new(key, AES.MODE_EAX) #creo el cifrado con la llave
         nonce=cipher.nonce
