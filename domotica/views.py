@@ -43,8 +43,12 @@ def home(request):
 
 
 def cifrar(request):
-    if request.method == 'GET':
-        mensaje = request.GET["mensaje"]
+    if request.method == 'POST':
+        mensaje = request.POST["mensaje"]
+        if mensaje== "true":
+            mensaje="americana1.#1"
+        else:
+            mensaje="americana1.#0"
         mensaje=mensaje.encode()#cambio el mensaje de string a bytes
         cipher = AES.new(key, AES.MODE_EAX) #creo el cifrado con la llave
         nonce=cipher.nonce
@@ -53,7 +57,6 @@ def cifrar(request):
         encryptor = cipher.encrypt(mensaje)#encripto el mensaje
         encoded_encrypted_msg = base64.b64encode(encryptor)#codifico el byte encriptado a un formato base 64  o utf-8 o latin -1
         encoded_encrypted_msg=encoded_encrypted_msg.decode()#el mensaje encriptado cambio el tipo de dato de byte a string para poder enviarlo por json
-        print(nonce)
         responseData = {
         'result': encoded_encrypted_msg,
         'nonce':nonce
@@ -63,10 +66,10 @@ def cifrar(request):
    
 
 def decifrar(request): 
-    if request.method == 'GET':
+    if request.method == 'POST':
         msj=bool()
-        mensaje = request.GET["mensaje"]
-        nonce=request.GET["nonce"]
+        mensaje = request.POST["mensaje"]
+        nonce=request.POST["nonce"]
         nonce=nonce.encode()
         nonce=base64.b64decode(nonce)
         mensaje=mensaje.encode()#cambio el mensaje de string a byte
@@ -74,7 +77,7 @@ def decifrar(request):
         decryptor = AES.new(key, AES.MODE_EAX, nonce)
         decrypted = decryptor.decrypt(mensaje)
         decrypted=decrypted.decode()#cambio el mensaje desencriptado de byte a string
-        if decrypted== "true":
+        if decrypted== "americana1.#1":
             msj=True
         else:
             msj=False
