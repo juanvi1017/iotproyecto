@@ -29,7 +29,8 @@ if environment == 'iot':
     '''
 
     #Leo la llave almacenada en el archivo .pem
-    f = open('C:/Users/juanvi/Documents/mykey.pem','r')
+    #f = open('C:/Users/juanvi/Documents/mykey.pem','r')
+    f = open('static/mykey.pem','r')
     key=f.read()
     key=base64.b64decode(key)
     diccionario={'true':'americana1.#1', 'false':'americana1.#0'}
