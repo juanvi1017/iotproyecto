@@ -1,7 +1,7 @@
 certifi==2021.5.30
 chardet==4.0.0
 charset-normalizer==2.0.4
-Django==2.2.3
+Django
 gunicorn==20.1.0
 idna==3.2
 pycryptodome==3.10.1
