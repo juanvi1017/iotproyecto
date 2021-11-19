@@ -1,3 +1,5 @@
+import logging
+from types import TracebackType
 from django.shortcuts import render
 from django.views import generic
 import requests
@@ -46,41 +48,51 @@ def home(request):
 
 def cifrar(request):
     if request.method == 'POST':
-        info = request.POST["mensaje"]
-        mensaje=diccionario[info]
-        mensaje=mensaje.encode()#cambio el mensaje de string a bytes
-        cipher = AES.new(key, AES.MODE_EAX) #creo el cifrado con la llave
-        nonce=cipher.nonce
-        nonce=base64.b64encode(nonce)
-        nonce=nonce.decode()
-        encryptor = cipher.encrypt(mensaje)#encripto el mensaje
-        encoded_encrypted_msg = base64.b64encode(encryptor)#codifico el byte encriptado a un formato base 64  o utf-8 o latin -1
-        encoded_encrypted_msg=encoded_encrypted_msg.decode()#el mensaje encriptado cambio el tipo de dato de byte a string para poder enviarlo por json
-        responseData = {
-        'result': encoded_encrypted_msg,
-        'nonce':nonce
-         }
-        return HttpResponse(json.dumps(responseData), content_type="application/json")
+        try:
+            info = request.POST["mensaje"]
+            mensaje=diccionario[info]
+            mensaje=mensaje.encode()#cambio el mensaje de string a bytes
+            cipher = AES.new(key, AES.MODE_EAX) #creo el cifrado con la llave
+            nonce=cipher.nonce
+            nonce=base64.b64encode(nonce)
+            nonce=nonce.decode()
+            encryptor = cipher.encrypt(mensaje)#encripto el mensaje
+            encoded_encrypted_msg = base64.b64encode(encryptor)#modifico el byte encriptado a un formato base 64  o utf-8 o latin -1
+            encoded_encrypted_msg=encoded_encrypted_msg.decode()#el mensaje encriptado cambio el tipo de dato de byte a string para poder enviarlo por json
+            responseData = {
+            'result': encoded_encrypted_msg,
+            'nonce':nonce
+            }
+            return HttpResponse(json.dumps(responseData), content_type="application/json")
+        except Exception as e:
+            print(e)
+            print("Error al cifrar")
+            return None
     
    
 
 def decifrar(request): 
     if request.method == 'POST':
-        msj=bool()
-        mensaje = request.POST["mensaje"]
-        nonce=request.POST["nonce"]
-        nonce=nonce.encode()
-        nonce=base64.b64decode(nonce)
-        mensaje=mensaje.encode()#cambio el mensaje de string a byte
-        mensaje = base64.b64decode(mensaje)#devuelvo en mensaje al formato original de la encriptacion
-        decryptor = AES.new(key, AES.MODE_EAX, nonce)
-        decrypted = decryptor.decrypt(mensaje)
-        decrypted=decrypted.decode()#cambio el mensaje desencriptado de byte a string
-        if decrypted== "americana1.#1":
-            msj=True
-        else:
-            msj=False
-        responseData = {
-        'result': msj,
-        }
-        return HttpResponse(json.dumps(responseData), content_type="application/json")
+        try:
+            msj=bool()
+            mensaje = request.POST["mensaje"]
+            nonce=request.POST["nonce"]
+            nonce=nonce.encode()
+            nonce=base64.b64decode(nonce)
+            mensaje=mensaje.encode()#cambio el mensaje de string a byte
+            mensaje = base64.b64decode(mensaje)#devuelvo en mensaje al formato original de la encriptacion
+            decryptor = AES.new(key, AES.MODE_EAX, nonce)
+            decrypted = decryptor.decrypt(mensaje)
+            decrypted=decrypted.decode()#cambio el mensaje desencriptado de byte a string
+            if decrypted== "americana1.#1":
+                msj=True
+            else:
+                msj=False
+            responseData = {
+            'result': msj,
+            }
+            return HttpResponse(json.dumps(responseData), content_type="application/json")
+        except Exception as e:
+            print(e)
+            print("Error al decifrar")
+            return None
