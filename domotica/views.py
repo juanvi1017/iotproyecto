@@ -85,7 +85,7 @@ def decifrar(request):
             decrypted = decryptor.decrypt(mensaje)
             decrypted=decrypted.decode()#cambio el mensaje desencriptado de byte a string
             if decrypted== "americana1.#1":
-                msj=True
+                msj=True 
             else:
                 msj=False
             responseData = {
